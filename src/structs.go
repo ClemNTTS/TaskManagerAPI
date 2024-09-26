@@ -58,5 +58,5 @@ func WriteTasks(liste Tasks){
 func AddTask(new Task){
 	tasks := LoadTasks()
 	tasks.All = append(tasks.All,new)
-	WriteTasks(tasks)
+	WriteTasks(SortTasks(tasks))
 }

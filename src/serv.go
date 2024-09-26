@@ -21,11 +21,11 @@ func Launch() {
 
 	mux := http.NewServeMux()
 
-	http.HandleFunc("/tasks",TasksRequests)
-	http.HandleFunc("/tasks/",SingleTaskRequests)
+	mux.HandleFunc("/tasks",TasksRequests)
+	mux.HandleFunc("/tasks/",SingleTaskRequests)
 
 	server := &http.Server{
-		Addr: port,
+		Addr: ":"+port,
 		Handler: mux,
 		ReadHeaderTimeout: 10*time.Second,
 		WriteTimeout: 10*time.Second,
@@ -33,7 +33,9 @@ func Launch() {
 		MaxHeaderBytes: 1<<20,
 	}
 
-	fmt.Printf("Listening on http://localhost:%v\n",port)
-	log.Fatal(server.ListenAndServe())
+	fmt.Printf("Listening on http://localhost%v \n",server.Addr)
+	if err := server.ListenAndServe(); err != nil{
+		log.Fatal(err)
+	}
 
 }
